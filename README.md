@@ -1,1 +1,4 @@
 # GekkouCommonSctipts
+## Unityで使用する事のできる便利なScrtipt達です
+ManagerクラスからEditor拡張クラス、ちょっとした汎用クラスたちの寄せ集めになります。
+調整段階のもあるので悪しからずです。
