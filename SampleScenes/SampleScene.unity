@@ -487,6 +487,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6357089948832128990, guid: dc0a5b3238192ce4587d650d99ad0412,
+        type: 3}
+      propertyPath: _maxLog
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6357089948832128990, guid: dc0a5b3238192ce4587d650d99ad0412,
+        type: 3}
+      propertyPath: _usePlayLog
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6357089948832128991, guid: dc0a5b3238192ce4587d650d99ad0412,
         type: 3}
       propertyPath: m_Name
@@ -726,6 +736,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fading: 0
+  _randomVec: {x: -5, y: 1}
+  _timer:
+    _intervalTime: 3
+    _elaspedTime: 0
+  _testList:
+  - AA
+  - BBB
+  - CCCC
 --- !u!1001 &1173814699
 PrefabInstance:
   m_ObjectHideFlags: 0
