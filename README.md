@@ -3,6 +3,9 @@
 ManagerクラスからEditor拡張クラス、ちょっとした汎用クラス、それらのクラスを用いたPrefabたちの寄せ集めになります。
 調整段階のもあるので悪しからずです。
 
+UnityPackageのダウンロードはこちらから
+https://github.com/Gekkouseki/GekkouCommonScripts/releases/tag/UnityPackage
+
 ## 内容物
 ### CommonScripts
 #### Editor
