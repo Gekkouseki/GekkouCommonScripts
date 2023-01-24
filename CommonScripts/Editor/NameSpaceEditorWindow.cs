@@ -6,171 +6,178 @@ using System.IO;
 using System.Text;
 using System.Linq;
 
-public class NameSpaceEditorWindow : EditorWindow
+namespace Gekkou
 {
-    private Object _selectFile;
-    private string _spaceName;
-
-    [MenuItem("Tools/Window/NamespaceEditor")]
-    private static void Open()
+    /// <summary>
+    /// NameSpaceEditor表示用
+    /// </summary>
+    public class NameSpaceEditorWindow : EditorWindow
     {
-        var window = GetWindow<NameSpaceEditorWindow>();
-        window.titleContent = new GUIContent("Namespace Editor");
-    }
+        private Object _selectFile;
+        private string _spaceName;
 
-    private string GetPath()
-    {
-        return GetPath(AssetDatabase.GetAssetPath(_selectFile));
-    }
-
-    private string GetPath(string adPath)
-    {
-        var path = Application.dataPath.Replace("Assets", adPath);
-        return path.Replace('/', Path.DirectorySeparatorChar);
-    }
-
-    private void RemoveNamespace()
-    {
-        var path = GetPath();
-
-        RemoveNamespace(path);
-    }
-
-    private void RemoveNamespace(string path)
-    {
-        var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        var data = new StreamReader(file, Encoding.UTF8);
-        var newData = NameSpaceEditor.RemoveNameSpace(data.ReadToEnd());
-
-        FileExporter.FileExport(newData, path, "namespace remove is complete.");
-    }
-
-    private void AddNamespace()
-    {
-        var path = GetPath();
-
-        AddNamespace(path);
-    }
-
-    private void AddNamespace(string path)
-    {
-        var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        var data = new StreamReader(file, Encoding.UTF8);
-        var newData = NameSpaceEditor.AddNameSpace(data.ReadToEnd(), _spaceName);
-
-        FileExporter.FileExport(newData, path, "namespace add is complete.");
-    }
-
-    private void SelectOfRemoveNamespace()
-    {
-        if(Selection.assetGUIDs != null && Selection.assetGUIDs.Length > 0)
+        [MenuItem("Tools/Gekkou/Window/NamespaceEditor")]
+        private static void Open()
         {
-            foreach (var adPath in Selection.assetGUIDs.Select(_ => AssetDatabase.GUIDToAssetPath(_)))
-            {
-                if(Path.GetExtension(adPath) == ".cs")
-                {
-                    var path = GetPath(adPath);
+            var window = GetWindow<NameSpaceEditorWindow>();
+            window.titleContent = new GUIContent("Namespace Editor");
+        }
 
-                    RemoveNamespace(path);
-                }
-                else
+        private string GetPath()
+        {
+            return GetPath(AssetDatabase.GetAssetPath(_selectFile));
+        }
+
+        private string GetPath(string adPath)
+        {
+            var path = Application.dataPath.Replace("Assets", adPath);
+            return path.Replace('/', Path.DirectorySeparatorChar);
+        }
+
+        private void RemoveNamespace()
+        {
+            var path = GetPath();
+
+            RemoveNamespace(path);
+        }
+
+        private void RemoveNamespace(string path)
+        {
+            var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var data = new StreamReader(file, Encoding.UTF8);
+            var newData = NameSpaceEditor.RemoveNameSpace(data.ReadToEnd());
+
+            FileExporter.FileExport(newData, path, "namespace remove is complete.");
+        }
+
+        private void AddNamespace()
+        {
+            var path = GetPath();
+
+            AddNamespace(path);
+        }
+
+        private void AddNamespace(string path)
+        {
+            var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var data = new StreamReader(file, Encoding.UTF8);
+            var newData = NameSpaceEditor.AddNameSpace(data.ReadToEnd(), _spaceName);
+
+            FileExporter.FileExport(newData, path, "namespace add is complete.");
+        }
+
+        private void SelectOfRemoveNamespace()
+        {
+            if (Selection.assetGUIDs != null && Selection.assetGUIDs.Length > 0)
+            {
+                foreach (var adPath in Selection.assetGUIDs.Select(_ => AssetDatabase.GUIDToAssetPath(_)))
                 {
-                    EditorUtility.DisplayDialog("Error", "Please select \".cs\" files.", "OK");
+                    if (Path.GetExtension(adPath) == ".cs")
+                    {
+                        var path = GetPath(adPath);
+
+                        RemoveNamespace(path);
+                    }
+                    else
+                    {
+                        EditorUtility.DisplayDialog("Error", "Please select \".cs\" files.", "OK");
+                    }
                 }
             }
-        }
-        else
-        {
-            EditorUtility.DisplayDialog("Error", "Please select files.", "OK");
-        }
-    }
-
-    private void SelectOfAddNamespace()
-    {
-        if (Selection.assetGUIDs != null && Selection.assetGUIDs.Length > 0)
-        {
-            foreach (var adPath in Selection.assetGUIDs.Select(_ => AssetDatabase.GUIDToAssetPath(_)))
+            else
             {
-                if (Path.GetExtension(adPath) == ".cs")
-                {
-                    var path = GetPath(adPath);
-
-                AddNamespace(path);
-                }
-                else
-                {
-                    EditorUtility.DisplayDialog("Error", "Please select \".cs\" files.", "OK");
-                }
+                EditorUtility.DisplayDialog("Error", "Please select files.", "OK");
             }
         }
-        else
-        {
-            EditorUtility.DisplayDialog("Error", "Please select files.", "OK");
-        }
-    }
 
-    private void OnGUI()
-    {
-        EditorGUILayout.BeginVertical("Box");
+        private void SelectOfAddNamespace()
         {
-            EditorGUILayout.LabelField("Select Data");
-            _selectFile = EditorGUILayout.ObjectField("Target File", _selectFile, typeof(Object), false);
-            _spaceName = EditorGUILayout.TextField("Add Name", _spaceName);
-        }
-        EditorGUILayout.EndVertical();
+            if (Selection.assetGUIDs != null && Selection.assetGUIDs.Length > 0)
+            {
+                foreach (var adPath in Selection.assetGUIDs.Select(_ => AssetDatabase.GUIDToAssetPath(_)))
+                {
+                    if (Path.GetExtension(adPath) == ".cs")
+                    {
+                        var path = GetPath(adPath);
 
-        if (FileExporter.CanCreate())
+                        AddNamespace(path);
+                    }
+                    else
+                    {
+                        EditorUtility.DisplayDialog("Error", "Please select \".cs\" files.", "OK");
+                    }
+                }
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("Error", "Please select files.", "OK");
+            }
+        }
+
+        private void OnGUI()
         {
             EditorGUILayout.BeginVertical("Box");
             {
-                EditorGUILayout.LabelField("Processing for set data.");
-                EditorGUILayout.BeginHorizontal();
-                {
-                    if (GUILayout.Button("Remove Namespace"))
-                    {
-                        if (_selectFile != null)
-                        {
-                            RemoveNamespace();
-                        }
-                    }
-
-                    if (GUILayout.Button("Add Namespace"))
-                    {
-                        if (_selectFile != null)
-                        {
-                            AddNamespace();
-                        }
-                    }
-                }
-                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.LabelField("Select Data");
+                _selectFile = EditorGUILayout.ObjectField("Target File", _selectFile, typeof(Object), false);
+                _spaceName = EditorGUILayout.TextField("Add Name", _spaceName);
             }
             EditorGUILayout.EndVertical();
 
-            EditorGUILayout.Space(20);
-
-            EditorGUILayout.BeginVertical("Box");
+            if (FileExporter.CanCreate())
             {
-                EditorGUILayout.LabelField("Processing for selected data.");
-                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginVertical("Box");
                 {
-                    if (GUILayout.Button("Select Remove Namespace"))
+                    EditorGUILayout.LabelField("Processing for set data.");
+                    EditorGUILayout.BeginHorizontal();
                     {
-                        SelectOfRemoveNamespace();
-                    }
+                        if (GUILayout.Button("Remove Namespace"))
+                        {
+                            if (_selectFile != null)
+                            {
+                                RemoveNamespace();
+                            }
+                        }
 
-                    if (GUILayout.Button("Add Namespace"))
-                    {
-                        SelectOfAddNamespace();
+                        if (GUILayout.Button("Add Namespace"))
+                        {
+                            if (_selectFile != null)
+                            {
+                                AddNamespace();
+                            }
+                        }
                     }
+                    EditorGUILayout.EndHorizontal();
                 }
-                EditorGUILayout.EndHorizontal();
-            }
-            EditorGUILayout.EndVertical();
-        }
-        else
-        {
-            EditorGUILayout.HelpBox("Only Edit Mode.", MessageType.Info);
-        }
+                EditorGUILayout.EndVertical();
 
+                EditorGUILayout.Space(20);
+
+                EditorGUILayout.BeginVertical("Box");
+                {
+                    EditorGUILayout.LabelField("Processing for selected data.");
+                    EditorGUILayout.BeginHorizontal();
+                    {
+                        if (GUILayout.Button("Select Remove Namespace"))
+                        {
+                            SelectOfRemoveNamespace();
+                        }
+
+                        if (GUILayout.Button("Add Namespace"))
+                        {
+                            SelectOfAddNamespace();
+                        }
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+                EditorGUILayout.EndVertical();
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Only Edit Mode.", MessageType.Info);
+            }
+
+        }
     }
+
 }

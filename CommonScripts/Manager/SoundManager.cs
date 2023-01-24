@@ -26,6 +26,11 @@ public class SoundManager : SingletonMonobehavior<SoundManager>
     [SerializeField]
     private List<AudioSource> seAudios = new List<AudioSource>();
 
+    private void Start()
+    {
+        LoadSoundVolume();
+    }
+
     public void AudioListControll(AudioSource audio, AudioType type, bool isAdding)
     {
         if(type == AudioType.BGM)
@@ -113,5 +118,11 @@ public class SoundManager : SingletonMonobehavior<SoundManager>
     public void SaveSoundVolume()
     {
         SaveSystemManager.Instance.Saving(masterVolume, bgmVolume, seVolume);
+    }
+
+    public void LoadSoundVolume()
+    {
+        var data = SaveSystemManager.Instance.SaveData;
+        SetVolume(data.masterVolume, data.bgmVolume, data.seVolume);
     }
 }

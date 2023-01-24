@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-public class ReadOnlyDrawer : PropertyDrawer
+namespace Gekkou
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    /// <summary>
+    /// SerializeFieldやPublic変数をEdior上で表示専用にする
+    /// </summary>
+    [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+    public class ReadOnlyDrawer : PropertyDrawer
     {
-        EditorGUI.BeginDisabledGroup(true);
-        EditorGUI.PropertyField(position, property, label);
-        EditorGUI.EndDisabledGroup();
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUI.PropertyField(position, property, label);
+            EditorGUI.EndDisabledGroup();
+        }
     }
+
 }

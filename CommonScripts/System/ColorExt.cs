@@ -1,14 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public static class ColorExt
 {
     /// <summary>
-    /// Set the opacity of the image
+    /// Set the opacity of the Image
     /// </summary>
     /// <param name="image"></param>
     /// <param name="alpha"></param>
     public static void SetOpacity(this Image image, float alpha)
+    {
+        var c = image.color;
+        image.color = new Color(c.r, c.g, c.b, alpha);
+    }
+
+    /// <summary>
+    /// Set the opacity of the RawImage
+    /// </summary>
+    /// <param name="image"></param>
+    /// <param name="alpha"></param>
+    public static void SetOpacity(this RawImage image, float alpha)
     {
         var c = image.color;
         image.color = new Color(c.r, c.g, c.b, alpha);
@@ -34,6 +46,12 @@ public static class ColorExt
     {
         var c = sr.color;
         sr.color = new Color(c.r, c.g, c.b, alpha);
+    }
+
+    public static void SetOpacity(this TextMeshProUGUI text, float alpha)
+    {
+        var c = text.color;
+        text.color = new Color(c.r, c.g, c.b, alpha);
     }
 
     /// <summary>
