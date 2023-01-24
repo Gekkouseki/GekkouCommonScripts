@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// カメラを揺らす
+/// </summary>
 public class CameraShake : SingletonMonobehavior<CameraShake>
 {
     private Transform cameraTrans;

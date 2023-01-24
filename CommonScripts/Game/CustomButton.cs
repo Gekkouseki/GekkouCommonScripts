@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// カスタムボタン用基底クラス
+/// </summary>
 public class CustomButton : MonoBehaviour,
     IPointerClickHandler,
     IPointerDownHandler,

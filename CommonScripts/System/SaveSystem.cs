@@ -133,6 +133,8 @@ public static class SaveSystem<T> where T : struct
             writer.Write(json);
             writer.Flush();
             writer.Close();
+
+            Log.Info("Save Data Saving.");
             return;
         }
 
@@ -151,9 +153,11 @@ public static class SaveSystem<T> where T : struct
             bw.Write(base64Bytes.Length);
             bw.Write(base64Bytes);
         }
+
+        Log.Info("Save Data Saving.");
     }
 
-    public static T LoadingGameData()
+    public static bool LoadingGameData(ref T data)
     {
         string json;
         string savepath = GetSavePath();
@@ -167,11 +171,17 @@ public static class SaveSystem<T> where T : struct
                 json = reader.ReadToEnd();
                 reader.Close();
 
-                return JsonUtility.FromJson<T>(json);
+                Log.Info("Save Data Loading.");
+
+                data = JsonUtility.FromJson<T>(json);
+                return true;
             }
             else
             {
-                return new T();
+                Log.Info("Save Data Creating.");
+
+                data = new T();
+                return false;
             }
         }
 
@@ -194,11 +204,17 @@ public static class SaveSystem<T> where T : struct
             string base64 = Encoding.UTF8.GetString(base64Bytes);
             DecryptAesBase64(base64, iv, out json);
 
-            return JsonUtility.FromJson<T>(json);
+            Log.Info("Save Data Loading.");
+
+            data = JsonUtility.FromJson<T>(json);
+            return true;
         }
         catch
         {
-            return new T();
+            Log.Info("Save Data Creating.");
+
+            data = new T();
+            return false;
         }
     }
 }

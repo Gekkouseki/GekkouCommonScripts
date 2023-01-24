@@ -3,67 +3,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class EnumEditorWindow : EditorWindow
+namespace Gekkou
 {
-    private string _enumName = "EnumName";
-    [SerializeField]
-    private List<string> _itemNameList = new List<string>();
-    private bool _isNumber = false;
-    private int _itemStartNumber = 0;
-    private string _filePath = "";
-    private string _fileSummary = "";
-
-    [MenuItem("Tools/Window/EnumEditor")]
-    private static void Open()
+    /// <summary>
+    /// EnumEdior表示用
+    /// </summary>
+    public class EnumEditorWindow : EditorWindow
     {
-        var window = GetWindow<EnumEditorWindow>();
-        window.titleContent = new GUIContent("Enum Editor");
-    }
+        private string _enumName = "EnumName";
+        [SerializeField]
+        private List<string> _itemNameList = new List<string>();
+        private bool _isNumber = false;
+        private int _itemStartNumber = 0;
+        private string _filePath = "";
+        private string _fileSummary = "";
 
-    private void FindFilePath()
-    {
-        if (string.IsNullOrEmpty(_filePath))
+        [MenuItem("Tools/Gekkou/Window/EnumEditor")]
+        private static void Open()
         {
-            _filePath = FileExporter.DEFAULT_PATH;
+            var window = GetWindow<EnumEditorWindow>();
+            window.titleContent = new GUIContent("Enum Editor");
         }
-        _filePath = EnumEditor.FindPath(_enumName, _filePath);
-    }
 
-    private void CreateEnumFile()
-    {
-        EnumEditor.Create(_enumName, _itemNameList, _filePath, _fileSummary, _isNumber, _itemStartNumber);
-    }
-
-    private void OnGUI()
-    {
-        var win = new SerializedObject(this);
-        win.Update();
-
-        EditorGUILayout.BeginVertical("Box");
+        private void FindFilePath()
         {
-            EditorGUILayout.LabelField("Enum Data");
-            _enumName = EditorGUILayout.TextField("Enum Name", _enumName);
-            EditorGUILayout.PropertyField(win.FindProperty("_itemNameList"), true);
-            _isNumber = EditorGUILayout.Toggle("Is Number", _isNumber);
-            if (_isNumber)
+            if (string.IsNullOrEmpty(_filePath))
             {
-                _itemStartNumber = EditorGUILayout.IntField("Item Start Number", _itemStartNumber);
+                _filePath = FileExporter.DEFAULT_PATH;
             }
-            EditorGUILayout.LabelField("File Summary");
-            _fileSummary = EditorGUILayout.TextArea(_fileSummary, GUILayout.Height(90.0f));
+            _filePath = EnumEditor.FindPath(_enumName, _filePath);
         }
-        EditorGUILayout.EndVertical();
 
-        if (GUILayout.Button("Create Enum File"))
+        private void CreateEnumFile()
         {
-            FindFilePath();
-            if (!string.IsNullOrEmpty(_filePath))
-            {
-                CreateEnumFile();
-            }
+            EnumEditor.Create(_enumName, _itemNameList, _filePath, _fileSummary, _isNumber, _itemStartNumber);
         }
 
-        win.ApplyModifiedProperties();
+        private void OnGUI()
+        {
+            var win = new SerializedObject(this);
+            win.Update();
+
+            EditorGUILayout.BeginVertical("Box");
+            {
+                EditorGUILayout.LabelField("Enum Data");
+                _enumName = EditorGUILayout.TextField("Enum Name", _enumName);
+                EditorGUILayout.PropertyField(win.FindProperty("_itemNameList"), true);
+                _isNumber = EditorGUILayout.Toggle("Is Number", _isNumber);
+                if (_isNumber)
+                {
+                    _itemStartNumber = EditorGUILayout.IntField("Item Start Number", _itemStartNumber);
+                }
+                EditorGUILayout.LabelField("File Summary");
+                _fileSummary = EditorGUILayout.TextArea(_fileSummary, GUILayout.Height(90.0f));
+            }
+            EditorGUILayout.EndVertical();
+
+            if (GUILayout.Button("Create Enum File"))
+            {
+                FindFilePath();
+                if (!string.IsNullOrEmpty(_filePath))
+                {
+                    CreateEnumFile();
+                }
+            }
+
+            win.ApplyModifiedProperties();
+        }
+
     }
 
 }

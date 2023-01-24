@@ -18,6 +18,8 @@ public class SaveSystemPlayerPrefs<T> where T : struct
 
         // 強制保存
         PlayerPrefs.Save();
+
+        Log.Info("Save Data Saving.");
     }
 
     public static T LoadingGameData()
@@ -27,11 +29,15 @@ public class SaveSystemPlayerPrefs<T> where T : struct
             // セーブデータが存在する
             var json = PlayerPrefs.GetString(SAVEKEY);
 
+            Log.Info("Save Data Loading.");
+
             // T化
             return JsonUtility.FromJson<T>(json);
         }
         else
         {
+            Log.Info("Save Data Creating.");
+
             // セーブデータが存在しない
             return new T();
         }

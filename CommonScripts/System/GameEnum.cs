@@ -11,9 +11,9 @@ namespace GameEnum
     }
 
     /// <summary>
-    /// BallType
+    /// ColorType
     /// </summary>
-    public enum BallType
+    public enum ColorType
     {
         Red,
         Blue,

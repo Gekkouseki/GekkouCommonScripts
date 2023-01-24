@@ -1,4 +1,6 @@
-﻿using System;
+﻿/// Copyright (c) Goropocha
+
+using System;
 using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR

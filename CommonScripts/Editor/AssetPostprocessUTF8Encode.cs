@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/// Copyright (c) 2014 Koichi Kasai
+/// Released under the MIT license https://github.com/sharkattack51/GarageKit_for_Unity/blob/master/MIT-LICENSE
+
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
