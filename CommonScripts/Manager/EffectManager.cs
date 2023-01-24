@@ -2,49 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager : SingletonMonobehavior<EffectManager>
+namespace Gekkou
 {
-    public enum EffectName
+
+    public class EffectManager : SingletonMonobehavior<EffectManager>
     {
-        Fire,
-        Bomb,
-    }
+        [SerializeField, EnumIndex(typeof(EffectName))]
+        private GameObject[] Prefabs;
 
-    [SerializeField, EnumIndex(typeof(EffectName))]
-    private GameObject[] Prefabs;
+        private Dictionary<EffectName, List<GameObject>> effectObjs = new Dictionary<EffectName, List<GameObject>>();
 
-    private Dictionary<EffectName, List<GameObject>> effectObjs = new Dictionary<EffectName, List<GameObject>>();
-
-    protected override void Awake()
-    {
-        Instance = this;
-    }
-
-    public GameObject PlayEffect(EffectName eName)
-    {
-        if (effectObjs.ContainsKey(eName)) // eNameが含まれている
+        protected override void Awake()
         {
-            foreach (var o in effectObjs[eName])
+            Instance = this;
+        }
+
+        public GameObject PlayEffect(EffectName eName)
+        {
+            if (effectObjs.ContainsKey(eName)) // eNameが含まれている
             {
-                if (!o.activeSelf) // 非アクティブのため、使用する
+                foreach (var o in effectObjs[eName])
                 {
-                    o.SetActive(true);
-                    return o;
+                    if (!o.activeSelf) // 非アクティブのため、使用する
+                    {
+                        o.SetActive(true);
+                        return o;
+                    }
                 }
             }
-        }
 
-        // 在庫がない場合は、新たに生成する
-        var obj = Instantiate(Prefabs[(int)eName]);
-        if (effectObjs.ContainsKey(eName))
-        {
-            effectObjs[eName].Add(obj);
+            // 在庫がない場合は、新たに生成する
+            var obj = Instantiate(Prefabs[(int)eName]);
+            if (effectObjs.ContainsKey(eName))
+            {
+                effectObjs[eName].Add(obj);
+            }
+            else
+            {
+                var list = new List<GameObject>() { obj };
+                effectObjs.Add(eName, list);
+            }
+            return obj;
         }
-        else
-        {
-            var list = new List<GameObject>() { obj };
-            effectObjs.Add(eName, list);
-        }
-        return obj;
     }
+
 }

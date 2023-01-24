@@ -1,23 +1,27 @@
 ﻿
-namespace GameEnum
+namespace Gekkou
 {
-    /// <summary>
-    /// PlayかStopか
-    /// </summary>
-    public enum Play
-    {
-        Stop,
-        Play,
-    }
 
-    /// <summary>
-    /// ColorType
-    /// </summary>
-    public enum ColorType
+    namespace GameEnum
     {
-        Red,
-        Blue,
-        Green,
-        Yellow,
+        /// <summary>
+        /// PlayかStopか
+        /// </summary>
+        public enum Play
+        {
+            Stop,
+            Play,
+        }
+
+        /// <summary>
+        /// ColorType
+        /// </summary>
+        public enum ColorType
+        {
+            Red,
+            Blue,
+            Green,
+            Yellow,
+        }
     }
 }

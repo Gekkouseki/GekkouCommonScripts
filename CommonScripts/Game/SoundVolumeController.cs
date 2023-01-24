@@ -3,39 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// 設定などで音量を変更する際に使用する
-/// </summary>
-public class SoundVolumeController : MonoBehaviour
+namespace Gekkou
 {
-    [SerializeField]
-    private SoundManager.AudioType audioType;
 
-    [SerializeField]
-    private Slider audioSlider;
-
-    private SoundManager soundManager;
-
-    private void Start()
+    /// <summary>
+    /// 設定などで音量を変更する際に使用する
+    /// </summary>
+    public class SoundVolumeController : MonoBehaviour
     {
-        soundManager = SoundManager.Instance;
+        [SerializeField]
+        private SoundManager.AudioType audioType;
 
-        audioSlider.value = audioType switch
+        [SerializeField]
+        private Slider audioSlider;
+
+        private SoundManager soundManager;
+
+        private void Start()
         {
-            SoundManager.AudioType.BGM => soundManager.BgmVolume,
-            SoundManager.AudioType.SE => soundManager.SeVolume,
-            SoundManager.AudioType.Master => soundManager.MasterVolume,
-            _ => 0.5f,
-        };
+            soundManager = SoundManager.Instance;
+
+            audioSlider.value = audioType switch
+            {
+                SoundManager.AudioType.BGM => soundManager.BgmVolume,
+                SoundManager.AudioType.SE => soundManager.SeVolume,
+                SoundManager.AudioType.Master => soundManager.MasterVolume,
+                _ => 0.5f,
+            };
+        }
+
+        public void ChangeVolume(float volume)
+        {
+            soundManager.SetVolume(volume, audioType);
+        }
+
+        public void SaveSoundVolume()
+        {
+            soundManager.SaveSoundVolume();
+        }
     }
 
-    public void ChangeVolume(float volume)
-    {
-        soundManager.SetVolume(volume, audioType);
-    }
-
-    public void SaveSoundVolume()
-    {
-        soundManager.SaveSoundVolume();
-    }
 }

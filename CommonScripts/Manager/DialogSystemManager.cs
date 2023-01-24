@@ -3,46 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DialogSystemManager : SingletonMonobehavior<DialogSystemManager>
+namespace Gekkou
 {
-    [SerializeField]
-    private Transform _viewCanvasTrans;
-    [SerializeField]
-    private GameObject _dialogPrefab;
 
-    private List<Dialog> _dialogObjList = new List<Dialog>();
-
-    public void PopupMessage(string message)
+    public class DialogSystemManager : SingletonMonobehavior<DialogSystemManager>
     {
-        for (int i = 0; i < _dialogObjList.Count; i++)
+        [SerializeField]
+        private Transform _viewCanvasTrans;
+        [SerializeField]
+        private GameObject _dialogPrefab;
+
+        private List<Dialog> _dialogObjList = new List<Dialog>();
+
+        public void PopupMessage(string message)
         {
-            if (!_dialogObjList[i].gameObject.activeSelf)
+            for (int i = 0; i < _dialogObjList.Count; i++)
             {
-                _dialogObjList[i].gameObject.SetActive(true);
-                _dialogObjList[i].SetMessage(message);
-                return;
+                if (!_dialogObjList[i].gameObject.activeSelf)
+                {
+                    _dialogObjList[i].gameObject.SetActive(true);
+                    _dialogObjList[i].SetMessage(message);
+                    return;
+                }
             }
+
+            var dialog = Instantiate(_dialogPrefab, _viewCanvasTrans).GetComponent<Dialog>();
+            _dialogObjList.Add(dialog);
+            dialog.SetMessage(message);
         }
 
-        var dialog = Instantiate(_dialogPrefab, _viewCanvasTrans).GetComponent<Dialog>();
-        _dialogObjList.Add(dialog);
-        dialog.SetMessage(message);
-    }
-
-    public void PopupMessage(string message, UnityAction selectAction, UnityAction cancelAction = null)
-    {
-        for (int i = 0; i < _dialogObjList.Count; i++)
+        public void PopupMessage(string message, UnityAction selectAction, UnityAction cancelAction = null)
         {
-            if (!_dialogObjList[i].gameObject.activeSelf)
+            for (int i = 0; i < _dialogObjList.Count; i++)
             {
-                _dialogObjList[i].gameObject.SetActive(true);
-                _dialogObjList[i].SetMessage(message, selectAction, cancelAction);
-                return;
+                if (!_dialogObjList[i].gameObject.activeSelf)
+                {
+                    _dialogObjList[i].gameObject.SetActive(true);
+                    _dialogObjList[i].SetMessage(message, selectAction, cancelAction);
+                    return;
+                }
             }
-        }
 
-        var dialog = Instantiate(_dialogPrefab, _viewCanvasTrans).GetComponent<Dialog>();
-        _dialogObjList.Add(dialog);
-        dialog.SetMessage(message, selectAction, cancelAction);
+            var dialog = Instantiate(_dialogPrefab, _viewCanvasTrans).GetComponent<Dialog>();
+            _dialogObjList.Add(dialog);
+            dialog.SetMessage(message, selectAction, cancelAction);
+        }
     }
+
 }

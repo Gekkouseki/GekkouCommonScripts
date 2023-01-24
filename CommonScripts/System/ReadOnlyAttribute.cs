@@ -1,5 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ReadOnlyAttribute : PropertyAttribute
+namespace Gekkou
 {
+
+    public class ReadOnlyAttribute : PropertyAttribute
+    {
+    }
+
 }

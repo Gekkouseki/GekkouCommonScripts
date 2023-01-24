@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomEnable : MonoBehaviour
+namespace Gekkou
 {
-    [SerializeField]
-    private GameObject[] gameObjects;
 
-    private void Start()
+    public class RandomEnable : MonoBehaviour
     {
-        SetRandomEnable();
-    }
+        [SerializeField]
+        private GameObject[] gameObjects;
 
-    public void SetRandomEnable()
-    {
-        var rand = gameObjects.GetRandomIndex();
-
-        for (int i = 0; i < gameObjects.Length; i++)
+        private void Start()
         {
-            gameObjects[i].SetActive(i == rand);
+            SetRandomEnable();
+        }
+
+        public void SetRandomEnable()
+        {
+            var rand = gameObjects.GetRandomIndex();
+
+            for (int i = 0; i < gameObjects.Length; i++)
+            {
+                gameObjects[i].SetActive(i == rand);
+            }
         }
     }
+
 }

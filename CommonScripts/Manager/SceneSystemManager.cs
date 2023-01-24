@@ -3,41 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneSystemManager : SingletonMonobehavior<SceneSystemManager>
+namespace Gekkou
 {
-    [SerializeField]
-    private float fadeTime = 1.0f;
 
-    [SerializeField]
-    private float sceneLoadDelay = 1.0f;
-
-    private GameUIManager gameUI;
-
-    public void SceneLoading(string sceneName)
+    public class SceneSystemManager : SingletonMonobehavior<SceneSystemManager>
     {
-        if (gameUI == null)
-            gameUI = GameUIManager.Instance;
+        [SerializeField]
+        private float fadeTime = 1.0f;
 
-        StartCoroutine(ISceneLoading(sceneName));
-    }
+        [SerializeField]
+        private float sceneLoadDelay = 1.0f;
 
-    private IEnumerator ISceneLoading(string sceneName)
-    {
-        yield return StartCoroutine(gameUI.FadeIn(fadeTime));
-        gameUI.ChangeEnableLoadingMenu(true);
+        private GameUIManager gameUI;
 
-        var async = SceneManager.LoadSceneAsync(sceneName);
-
-        while (!async.isDone)
+        public void SceneLoading(string sceneName)
         {
-            gameUI.ChangeSlider(async.progress);
-            yield return null;
+            if (gameUI == null)
+                gameUI = GameUIManager.Instance;
+
+            StartCoroutine(ISceneLoading(sceneName));
         }
-        gameUI.ChangeSlider(1.0f);
 
-        yield return new WaitForSeconds(sceneLoadDelay);
+        private IEnumerator ISceneLoading(string sceneName)
+        {
+            yield return StartCoroutine(gameUI.FadeIn(fadeTime));
+            gameUI.ChangeEnableLoadingMenu(true);
 
-        gameUI.ChangeEnableLoadingMenu(false);
-        yield return StartCoroutine(gameUI.FadeOut(fadeTime));
+            var async = SceneManager.LoadSceneAsync(sceneName);
+
+            while (!async.isDone)
+            {
+                gameUI.ChangeSlider(async.progress);
+                yield return null;
+            }
+            gameUI.ChangeSlider(1.0f);
+
+            yield return new WaitForSeconds(sceneLoadDelay);
+
+            gameUI.ChangeEnableLoadingMenu(false);
+            yield return StartCoroutine(gameUI.FadeOut(fadeTime));
+        }
     }
+
 }
