@@ -1,52 +1,57 @@
 ﻿using UnityEngine;
 
-public abstract class SingletonMonobehavior<T> : MonoBehaviour where T : MonoBehaviour
+namespace Gekkou
 {
-    private static T _Instance;
 
-    public static bool IsExists
+    public abstract class SingletonMonobehavior<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get { return _Instance != null; }
-    }
+        private static T _Instance;
 
-    public static T Instance
-    {
-        get
+        public static bool IsExists
         {
-            // Not Setting
-            if (_Instance == null) 
+            get { return _Instance != null; }
+        }
+
+        public static T Instance
+        {
+            get
             {
-                // Search on scene
-                _Instance = FindObjectOfType<T>(); 
-
-                // Not on the scene
-                if (_Instance == null) 
+                // Not Setting
+                if (_Instance == null)
                 {
-                    // Generated from resource prefabs
-                    var obj = Instantiate((GameObject)Resources.Load(typeof(T).Name));
-                    _Instance = obj.GetComponent<T>();
+                    // Search on scene
+                    _Instance = FindObjectOfType<T>();
 
-                    // Error if not in Resource
-                    if (_Instance == null) 
-                        Debug.Log($"Error:{typeof(T).Name}");
+                    // Not on the scene
+                    if (_Instance == null)
+                    {
+                        // Generated from resource prefabs
+                        var obj = Instantiate((GameObject)Resources.Load(typeof(T).Name));
+                        _Instance = obj.GetComponent<T>();
+
+                        // Error if not in Resource
+                        if (_Instance == null)
+                            Debug.Log($"Error:{typeof(T).Name}");
+                    }
                 }
+
+                return _Instance;
             }
-
-            return _Instance;
+            protected set
+            {
+                // only protected Setting
+                _Instance = value;
+            }
         }
-        protected set
+
+        protected virtual void Awake()
         {
-            // only protected Setting
-            _Instance = value;
+            // Deleted because it already exists
+            if (this != Instance)
+                Destroy(this.gameObject);
+
+            DontDestroyOnLoad(this.gameObject);
         }
     }
 
-    protected virtual void Awake()
-    {
-        // Deleted because it already exists
-        if (this != Instance)
-            Destroy(this.gameObject);
-
-        DontDestroyOnLoad(this.gameObject);
-    }
 }

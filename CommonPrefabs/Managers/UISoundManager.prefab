@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4433980012649036106}
   - component: {fileID: 4433980012649036109}
   - component: {fileID: 4433980012649036108}
-  - component: {fileID: 4433980012649036111}
+  - component: {fileID: 6141995499125927583}
   m_Layer: 0
   m_Name: UISoundManager
   m_TagString: Untagged
@@ -139,13 +139,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4433980012649036110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f139601b36cc1e48823f113e3caa1d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5390a6f5a61eca041a01df8b24200024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 4433980012649036109}
-  successClip: {fileID: 8300000, guid: fc1b4ce45ae2ed3469826acc058c40b3, type: 3}
-  failureClip: {fileID: 8300000, guid: 14c039e5511497248867e315ba41c3c5, type: 3}
---- !u!114 &4433980012649036111
+  successClip: {fileID: 0}
+  failureClip: {fileID: 0}
+--- !u!114 &6141995499125927583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4433980012649036110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1428154b543fec24d8b85079464c91e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 970a696952aa0d546a6d92aeaf036af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioType: 1

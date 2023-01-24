@@ -2,38 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// audiosourceが付いているものにアタッチすることで、自動的に音量を設定する
-/// </summary>
-[RequireComponent(typeof(AudioSource))]
-public class AudioController : MonoBehaviour
+namespace Gekkou
 {
-    [SerializeField]
-    private SoundManager.AudioType audioType;
 
-    [SerializeField]
-    private AudioSource audioSource;
-
-    private void Reset()
+    /// <summary>
+    /// audiosourceが付いているものにアタッチすることで、自動的に音量を設定する
+    /// </summary>
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioController : MonoBehaviour
     {
-        audioSource = GetComponent<AudioSource>();
-    }
+        [SerializeField]
+        private SoundManager.AudioType audioType;
 
-    private void Start()
-    {
-        SoundManager.Instance.AudioListControll(audioSource, audioType, true);
+        [SerializeField]
+        private AudioSource audioSource;
 
-        audioSource.volume = audioType switch
+        private void Reset()
         {
-            SoundManager.AudioType.BGM => SoundManager.Instance.BgmVolume,
-            SoundManager.AudioType.SE => SoundManager.Instance.SeVolume,
-            _ => 0.5f,
-        };
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        private void Start()
+        {
+            SoundManager.Instance.AudioListControll(audioSource, audioType, true);
+
+            audioSource.volume = audioType switch
+            {
+                SoundManager.AudioType.BGM => SoundManager.Instance.BgmVolume,
+                SoundManager.AudioType.SE => SoundManager.Instance.SeVolume,
+                _ => 0.5f,
+            };
+        }
+
+        private void OnDestroy()
+        {
+            if (!Application.isPlaying && !Application.isEditor)
+                SoundManager.Instance.AudioListControll(audioSource, audioType, false);
+        }
     }
 
-    private void OnDestroy()
-    {
-        if(!Application.isPlaying && !Application.isEditor)
-        SoundManager.Instance.AudioListControll(audioSource, audioType, false);
-    }
 }

@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class UISoundManager : SingletonMonobehavior<UISoundManager>
+namespace Gekkou
 {
-    [SerializeField]
-    private AudioSource audioSource;
 
-    [SerializeField]
-    private AudioClip successClip;
-
-    [SerializeField]
-    private AudioClip failureClip;
-
-    private void Reset()
+    [RequireComponent(typeof(AudioSource))]
+    public class UISoundManager : SingletonMonobehavior<UISoundManager>
     {
-        audioSource = GetComponent<AudioSource>();
+        [SerializeField]
+        private AudioSource audioSource;
+
+        [SerializeField]
+        private AudioClip successClip;
+
+        [SerializeField]
+        private AudioClip failureClip;
+
+        private void Reset()
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        public void PlaySuccess() { audioSource.PlayOneShot(successClip); }
+        public void PlayFailure() { audioSource.PlayOneShot(failureClip); }
+        public void PlayAudioClip(AudioClip clip) { audioSource.PlayOneShot(clip); }
     }
 
-    public void PlaySuccess() { audioSource.PlayOneShot(successClip); }
-    public void PlayFailure() { audioSource.PlayOneShot(failureClip); }
-    public void PlayAudioClip(AudioClip clip) { audioSource.PlayOneShot(clip); }
 }

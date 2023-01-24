@@ -2,127 +2,132 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : SingletonMonobehavior<SoundManager>
+namespace Gekkou
 {
-    public enum AudioType
+
+    public class SoundManager : SingletonMonobehavior<SoundManager>
     {
-        BGM,
-        SE,
-        Master,
-    }
-
-    private float masterVolume = 1.0f;
-    public float MasterVolume { get { return masterVolume; } }
-
-    private float bgmVolume = 0.5f;
-    public float BgmVolume { get { return Mathf.Clamp01(bgmVolume * masterVolume); } }
-
-    private float seVolume = 0.5f;
-    public float SeVolume { get { return Mathf.Clamp01(seVolume * masterVolume); } }
-
-    [SerializeField]
-    private List<AudioSource> bgmAudios = new List<AudioSource>();
-
-    [SerializeField]
-    private List<AudioSource> seAudios = new List<AudioSource>();
-
-    private void Start()
-    {
-        LoadSoundVolume();
-    }
-
-    public void AudioListControll(AudioSource audio, AudioType type, bool isAdding)
-    {
-        if(type == AudioType.BGM)
+        public enum AudioType
         {
-            if (isAdding)
-                bgmAudios.Add(audio);
-            else
-                bgmAudios.Remove(audio);
+            BGM,
+            SE,
+            Master,
         }
-        else if(type == AudioType.SE)
+
+        private float masterVolume = 1.0f;
+        public float MasterVolume { get { return masterVolume; } }
+
+        private float bgmVolume = 0.5f;
+        public float BgmVolume { get { return Mathf.Clamp01(bgmVolume * masterVolume); } }
+
+        private float seVolume = 0.5f;
+        public float SeVolume { get { return Mathf.Clamp01(seVolume * masterVolume); } }
+
+        [SerializeField]
+        private List<AudioSource> bgmAudios = new List<AudioSource>();
+
+        [SerializeField]
+        private List<AudioSource> seAudios = new List<AudioSource>();
+
+        private void Start()
         {
-            if (isAdding)
-                seAudios.Add(audio);
-            else
-                seAudios.Remove(audio);
+            LoadSoundVolume();
         }
-    }
 
-    private void CheckListOfNull()
-    {
-        bgmAudios.RemoveAll(i => i == null);
-        seAudios.RemoveAll(i => i == null);
-    }
-
-    public void SetVolume(float master, float bgm, float se)
-    {
-        CheckListOfNull();
-        SetMasterVolume(master);
-        SetBgmVolume(bgm);
-        SetSeVolume(se);
-    }
-
-    public void SetVolume(float volume, AudioType type)
-    {
-        CheckListOfNull();
-        switch (type)
+        public void AudioListControll(AudioSource audio, AudioType type, bool isAdding)
         {
-            case AudioType.BGM:
-                SetBgmVolume(volume);
-                break;
-            case AudioType.SE:
-                SetSeVolume(volume);
-                break;
-            case AudioType.Master:
-                SetMasterVolume(volume);
-                break;
+            if (type == AudioType.BGM)
+            {
+                if (isAdding)
+                    bgmAudios.Add(audio);
+                else
+                    bgmAudios.Remove(audio);
+            }
+            else if (type == AudioType.SE)
+            {
+                if (isAdding)
+                    seAudios.Add(audio);
+                else
+                    seAudios.Remove(audio);
+            }
         }
-    }
 
-    public void SetMasterVolume(float master)
-    {
-        masterVolume = master;
-        SetTheVolumeOfBgm();
-        SetTheVolumeOfSe();
-    }
-
-    public void SetBgmVolume(float bgm)
-    {
-        bgmVolume = bgm;
-        SetTheVolumeOfBgm();
-    }
-
-    public void SetSeVolume(float se)
-    {
-        seVolume = se;
-        SetTheVolumeOfSe();
-    }
-
-    private void SetTheVolumeOfBgm()
-    {
-        foreach (var bgm in bgmAudios)
+        private void CheckListOfNull()
         {
-            bgm.volume = masterVolume * bgmVolume;
+            bgmAudios.RemoveAll(i => i == null);
+            seAudios.RemoveAll(i => i == null);
         }
-    }
 
-    private void SetTheVolumeOfSe()
-    {
-        foreach (var se in seAudios)
+        public void SetVolume(float master, float bgm, float se)
         {
-            se.volume = masterVolume * seVolume;
+            CheckListOfNull();
+            SetMasterVolume(master);
+            SetBgmVolume(bgm);
+            SetSeVolume(se);
+        }
+
+        public void SetVolume(float volume, AudioType type)
+        {
+            CheckListOfNull();
+            switch (type)
+            {
+                case AudioType.BGM:
+                    SetBgmVolume(volume);
+                    break;
+                case AudioType.SE:
+                    SetSeVolume(volume);
+                    break;
+                case AudioType.Master:
+                    SetMasterVolume(volume);
+                    break;
+            }
+        }
+
+        public void SetMasterVolume(float master)
+        {
+            masterVolume = master;
+            SetTheVolumeOfBgm();
+            SetTheVolumeOfSe();
+        }
+
+        public void SetBgmVolume(float bgm)
+        {
+            bgmVolume = bgm;
+            SetTheVolumeOfBgm();
+        }
+
+        public void SetSeVolume(float se)
+        {
+            seVolume = se;
+            SetTheVolumeOfSe();
+        }
+
+        private void SetTheVolumeOfBgm()
+        {
+            foreach (var bgm in bgmAudios)
+            {
+                bgm.volume = masterVolume * bgmVolume;
+            }
+        }
+
+        private void SetTheVolumeOfSe()
+        {
+            foreach (var se in seAudios)
+            {
+                se.volume = masterVolume * seVolume;
+            }
+        }
+
+        public void SaveSoundVolume()
+        {
+            SaveSystemManager.Instance.Saving(masterVolume, bgmVolume, seVolume);
+        }
+
+        public void LoadSoundVolume()
+        {
+            var data = SaveSystemManager.Instance.SaveData;
+            SetVolume(data.masterVolume, data.bgmVolume, data.seVolume);
         }
     }
 
-    public void SaveSoundVolume()
-    {
-        SaveSystemManager.Instance.Saving(masterVolume, bgmVolume, seVolume);
-    }
-
-    public void LoadSoundVolume()
-    {
-        var data = SaveSystemManager.Instance.SaveData;
-        SetVolume(data.masterVolume, data.bgmVolume, data.seVolume);
-    }
 }

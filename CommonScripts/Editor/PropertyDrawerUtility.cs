@@ -3,99 +3,104 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public static class PropertyDrawerUtility
+
+namespace Gekkou
 {
-    public static void DrawDefaultGUI(Rect position, SerializedProperty property, GUIContent label)
+    public static class PropertyDrawerUtility
     {
-        property = property.serializedObject.FindProperty(property.propertyPath);
-        var fieldRect = position;
-        fieldRect.height = EditorGUIUtility.singleLineHeight;
-
-        using (new EditorGUI.PropertyScope(fieldRect, label, property))
+        public static void DrawDefaultGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (property.hasChildren)
-            {
-                // 子要素があれば折り畳み表示
-                property.isExpanded = EditorGUI.Foldout(fieldRect, property.isExpanded, label);
-            }
-            else
-            {
-                // 子要素が無ければラベルだけ表示
-                EditorGUI.LabelField(fieldRect, label);
-                return;
-            }
-            fieldRect.y += EditorGUIUtility.singleLineHeight;
-            fieldRect.y += EditorGUIUtility.standardVerticalSpacing;
+            property = property.serializedObject.FindProperty(property.propertyPath);
+            var fieldRect = position;
+            fieldRect.height = EditorGUIUtility.singleLineHeight;
 
-            if (property.isExpanded)
+            using (new EditorGUI.PropertyScope(fieldRect, label, property))
             {
-
-                using (new EditorGUI.IndentLevelScope())
+                if (property.hasChildren)
                 {
-                    // 最初の要素を描画
-                    property.NextVisible(true);
-                    var depth = property.depth;
-                    EditorGUI.PropertyField(fieldRect, property, true);
-                    fieldRect.y += EditorGUI.GetPropertyHeight(property, true);
-                    fieldRect.y += EditorGUIUtility.standardVerticalSpacing;
+                    // 子要素があれば折り畳み表示
+                    property.isExpanded = EditorGUI.Foldout(fieldRect, property.isExpanded, label);
+                }
+                else
+                {
+                    // 子要素が無ければラベルだけ表示
+                    EditorGUI.LabelField(fieldRect, label);
+                    return;
+                }
+                fieldRect.y += EditorGUIUtility.singleLineHeight;
+                fieldRect.y += EditorGUIUtility.standardVerticalSpacing;
 
-                    // それ以降の要素を描画
-                    while (property.NextVisible(false))
+                if (property.isExpanded)
+                {
+
+                    using (new EditorGUI.IndentLevelScope())
                     {
-
-                        // depthが最初の要素と同じもののみ処理
-                        if (property.depth != depth)
-                        {
-                            break;
-                        }
+                        // 最初の要素を描画
+                        property.NextVisible(true);
+                        var depth = property.depth;
                         EditorGUI.PropertyField(fieldRect, property, true);
                         fieldRect.y += EditorGUI.GetPropertyHeight(property, true);
                         fieldRect.y += EditorGUIUtility.standardVerticalSpacing;
+
+                        // それ以降の要素を描画
+                        while (property.NextVisible(false))
+                        {
+
+                            // depthが最初の要素と同じもののみ処理
+                            if (property.depth != depth)
+                            {
+                                break;
+                            }
+                            EditorGUI.PropertyField(fieldRect, property, true);
+                            fieldRect.y += EditorGUI.GetPropertyHeight(property, true);
+                            fieldRect.y += EditorGUIUtility.standardVerticalSpacing;
+                        }
                     }
                 }
             }
         }
-    }
 
-    public static float GetDefaultPropertyHeight(SerializedProperty property, GUIContent label)
-    {
-        property = property.serializedObject.FindProperty(property.propertyPath);
-        var height = 0.0f;
-
-        // プロパティ名
-        height += EditorGUIUtility.singleLineHeight;
-        height += EditorGUIUtility.standardVerticalSpacing;
-
-        if (!property.hasChildren)
+        public static float GetDefaultPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            // 子要素が無ければラベルだけ表示
-            return height;
-        }
+            property = property.serializedObject.FindProperty(property.propertyPath);
+            var height = 0.0f;
 
-        if (property.isExpanded)
-        {
-
-            // 最初の要素
-            property.NextVisible(true);
-            var depth = property.depth;
-            height += EditorGUI.GetPropertyHeight(property, true);
+            // プロパティ名
+            height += EditorGUIUtility.singleLineHeight;
             height += EditorGUIUtility.standardVerticalSpacing;
 
-            // それ以降の要素
-            while (property.NextVisible(false))
+            if (!property.hasChildren)
             {
-                // depthが最初の要素と同じもののみ処理
-                if (property.depth != depth)
-                {
-                    break;
-                }
+                // 子要素が無ければラベルだけ表示
+                return height;
+            }
+
+            if (property.isExpanded)
+            {
+
+                // 最初の要素
+                property.NextVisible(true);
+                var depth = property.depth;
                 height += EditorGUI.GetPropertyHeight(property, true);
                 height += EditorGUIUtility.standardVerticalSpacing;
-            }
-            // 最後はスペース不要なので削除
-            height -= EditorGUIUtility.standardVerticalSpacing;
-        }
 
-        return height;
+                // それ以降の要素
+                while (property.NextVisible(false))
+                {
+                    // depthが最初の要素と同じもののみ処理
+                    if (property.depth != depth)
+                    {
+                        break;
+                    }
+                    height += EditorGUI.GetPropertyHeight(property, true);
+                    height += EditorGUIUtility.standardVerticalSpacing;
+                }
+                // 最後はスペース不要なので削除
+                height -= EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            return height;
+        }
     }
+
 }

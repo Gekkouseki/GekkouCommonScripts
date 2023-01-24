@@ -21,8 +21,7 @@ namespace Gekkou
         [MenuItem("Tools/Gekkou/Window/EnumEditor")]
         private static void Open()
         {
-            var window = GetWindow<EnumEditorWindow>();
-            window.titleContent = new GUIContent("Enum Editor");
+            var window = GetWindow<EnumEditorWindow>("Enum Editor");
         }
 
         private void FindFilePath()
