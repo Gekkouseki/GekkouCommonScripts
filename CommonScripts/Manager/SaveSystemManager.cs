@@ -79,7 +79,7 @@ namespace Gekkou
         {
             if(!SaveSystem<SaveData>.LoadingGameData(ref saveData))
             {
-                saveData = new SaveData(1.0f, 1.0f, 1.0f, new int[4]);
+                saveData = new SaveData(1, 1.0f, 1.0f, 1.0f, "player", 1.0f);
                 SaveSystem<SaveData>.SavingGameData(saveData);
             }
         }
