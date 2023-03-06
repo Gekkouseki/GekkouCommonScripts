@@ -38,7 +38,7 @@ namespace Gekkou
 
         public void Saving(SaveData data)
         {
-            SaveSystemPlayerPrefs<SaveData>.SavingGameData(data);
+            SaveSystem<SaveData>.SavingGameData(saveData);
         }
 
         public void Saving(string playername)
@@ -77,7 +77,11 @@ namespace Gekkou
 
         public void Loading()
         {
-            saveData = SaveSystemPlayerPrefs<SaveData>.LoadingGameData();
+            if(!SaveSystem<SaveData>.LoadingGameData(ref saveData))
+            {
+                saveData = new SaveData(1.0f, 1.0f, 1.0f, new int[4]);
+                SaveSystem<SaveData>.SavingGameData(saveData);
+            }
         }
 
         protected override void Awake()
