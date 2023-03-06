@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 namespace Gekkou
 {
 
-    public class SceneSystemManager : SingletonMonobehavior<SceneSystemManager>
+    public class SceneSystemManager : SingletonMonobehaviour<SceneSystemManager>
     {
         [SerializeField]
         private float fadeTime = 1.0f;

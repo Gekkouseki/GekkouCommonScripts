@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Gekkou
 {
 
-    public class BGMManager : SingletonMonobehavior<BGMManager>
+    public class BGMManager : SingletonMonobehaviour<BGMManager>
     {
         [SerializeField]
         private AudioSource[] audioSources;

@@ -4,7 +4,7 @@ namespace Gekkou
     /// <summary>
     /// ゲームデータのやりとり、実態を持つ
     /// </summary>
-    public class SaveSystemManager : SingletonMonobehavior<SaveSystemManager>
+    public class SaveSystemManager : SingletonMonobehaviour<SaveSystemManager>
     {
         private SaveData saveData;
 

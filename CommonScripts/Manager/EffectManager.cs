@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Gekkou
 {
 
-    public class EffectManager : SingletonMonobehavior<EffectManager>
+    public class EffectManager : SingletonMonobehaviour<EffectManager>
     {
         [SerializeField, EnumIndex(typeof(EffectName))]
         private GameObject[] Prefabs;

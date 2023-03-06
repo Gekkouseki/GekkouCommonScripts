@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Gekkou
 {
 
-    public class SoundManager : SingletonMonobehavior<SoundManager>
+    public class SoundManager : SingletonMonobehaviour<SoundManager>
     {
         public enum AudioType
         {

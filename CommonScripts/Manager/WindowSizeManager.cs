@@ -6,7 +6,7 @@ using TMPro;
 namespace Gekkou
 {
 
-    public class WindowSizeManager : SingletonMonobehavior<WindowSizeManager>
+    public class WindowSizeManager : SingletonMonobehaviour<WindowSizeManager>
     {
         public static int ScreenSizeIndex { get; private set; } = 0;
 

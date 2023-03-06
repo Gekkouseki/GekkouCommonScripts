@@ -6,7 +6,7 @@ namespace Gekkou
 {
 
     [RequireComponent(typeof(AudioSource))]
-    public class UISoundManager : SingletonMonobehavior<UISoundManager>
+    public class UISoundManager : SingletonMonobehaviour<UISoundManager>
     {
         [SerializeField]
         private AudioSource audioSource;

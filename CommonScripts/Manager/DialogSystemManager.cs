@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Gekkou
 {
 
-    public class DialogSystemManager : SingletonMonobehavior<DialogSystemManager>
+    public class DialogSystemManager : SingletonMonobehaviour<DialogSystemManager>
     {
         [SerializeField]
         private Transform _viewCanvasTrans;

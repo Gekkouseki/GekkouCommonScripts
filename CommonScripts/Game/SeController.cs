@@ -6,7 +6,7 @@ namespace Gekkou
 {
 
     [RequireComponent(typeof(AudioSource))]
-    public class SeController : SingletonMonobehavior<SeController>
+    public class SeController : SingletonMonobehaviour<SeController>
     {
         [SerializeField]
         private AudioSource _audioSource;

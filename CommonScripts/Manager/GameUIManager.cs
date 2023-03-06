@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Gekkou
 {
 
-    public class GameUIManager : SingletonMonobehavior<GameUIManager>
+    public class GameUIManager : SingletonMonobehaviour<GameUIManager>
     {
         [SerializeField]
         private GameObject loadingMenuObj;
