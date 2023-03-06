@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 namespace Gekkou
 {
 
-    public class SceneSystemManager : SingletonMonobehavior<SceneSystemManager>
+    public class SceneSystemManager : SingletonMonobehaviour<SceneSystemManager>
     {
         [SerializeField]
         private float fadeTime = 1.0f;
@@ -15,6 +15,14 @@ namespace Gekkou
         private float sceneLoadDelay = 1.0f;
 
         private GameUIManager gameUI;
+
+        public void SceneReloading()
+        {
+            if (gameUI == null)
+                gameUI = GameUIManager.Instance;
+
+            StartCoroutine(ISceneLoading(SceneManager.GetActiveScene().name));
+        }
 
         public void SceneLoading(string sceneName)
         {

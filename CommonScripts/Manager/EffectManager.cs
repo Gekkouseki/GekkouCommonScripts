@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Gekkou
 {
 
-    public class EffectManager : SingletonMonobehavior<EffectManager>
+    public class EffectManager : SingletonMonobehaviour<EffectManager>
     {
         [SerializeField, EnumIndex(typeof(EffectName))]
         private GameObject[] Prefabs;
@@ -17,7 +17,12 @@ namespace Gekkou
             Instance = this;
         }
 
-        public GameObject PlayEffect(EffectName eName)
+        public GameObject PlayEffect(EffectName eName, Vector3 pos)
+        {
+            return PlayEffect(eName, pos, Quaternion.identity);
+        }
+
+        public GameObject PlayEffect(EffectName eName, Vector3 pos, Quaternion rot)
         {
             if (effectObjs.ContainsKey(eName)) // eNameが含まれている
             {
@@ -25,6 +30,7 @@ namespace Gekkou
                 {
                     if (!o.activeSelf) // 非アクティブのため、使用する
                     {
+                        o.transform.position = pos;
                         o.SetActive(true);
                         return o;
                     }
@@ -32,7 +38,7 @@ namespace Gekkou
             }
 
             // 在庫がない場合は、新たに生成する
-            var obj = Instantiate(Prefabs[(int)eName]);
+            var obj = Instantiate(Prefabs[(int)eName], pos, rot);
             if (effectObjs.ContainsKey(eName))
             {
                 effectObjs[eName].Add(obj);

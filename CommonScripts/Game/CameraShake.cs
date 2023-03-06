@@ -8,7 +8,7 @@ namespace Gekkou
     /// <summary>
     /// カメラを揺らす
     /// </summary>
-    public class CameraShake : SingletonMonobehavior<CameraShake>
+    public class CameraShake : SingletonMonobehaviour<CameraShake>
     {
         private Transform cameraTrans;
         private Vector3 origin;

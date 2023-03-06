@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Gekkou
 {
 
-    public class PlayLog : SingletonMonobehavior<PlayLog>
+    public class PlayLog : SingletonMonobehaviour<PlayLog>
     {
         [System.Serializable]
         public class LogStyle

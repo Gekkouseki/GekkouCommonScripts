@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Gekkou
 {
 
-    public class BGMManager : SingletonMonobehavior<BGMManager>
+    public class BGMManager : SingletonMonobehaviour<BGMManager>
     {
         [SerializeField]
         private AudioSource[] audioSources;
@@ -29,6 +29,9 @@ namespace Gekkou
         /// </summary>
         public void ChangeAudio(AudioClip newClip)
         {
+            if (soundManager == null)
+                soundManager = SoundManager.Instance;
+
             var newIndex = mainAudioIndex + 1;
             if (newIndex >= audioSources.Length) newIndex = 0;
 
@@ -64,6 +67,10 @@ namespace Gekkou
         {
             audioSources[newIndex].Play();
 
+            if (soundManager == null)
+                soundManager = SoundManager.Instance;
+
+            
             {
                 var t = 0.0f;
                 var nVolume = audioSources[newIndex].volume;
@@ -83,10 +90,12 @@ namespace Gekkou
                     yield return null;
                 }
             }
+            /*
             {
-                //audioSources[newIndex].DOFade(1.0f * soundManager.BgmVolume, fadeTime);
-                //yield return audioSources[mainAudioIndex].DOFade(0.0f, fadeTime).WaitForCompletion();
+                audioSources[newIndex].DOFade(1.0f * soundManager.BgmVolume, fadeTime);
+                yield return audioSources[mainAudioIndex].DOFade(0.0f, fadeTime).WaitForCompletion();
             }
+            */
 
             audioSources[mainAudioIndex].Stop();
 

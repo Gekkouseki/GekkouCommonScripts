@@ -8,7 +8,7 @@ using TMPro;
 namespace Gekkou
 {
 
-    public class MouseSensitivityManager : SingletonMonobehavior<MouseSensitivityManager>
+    public class MouseSensitivityManager : SingletonMonobehaviour<MouseSensitivityManager>
     {
         [SerializeField]
         private float _minSensi = 0.1f;
